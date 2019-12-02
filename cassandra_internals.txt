@@ -1,0 +1,223 @@
+Apache Cassandra
+
+is a highly scalable, high-performance distributed database designed to handle large amounts of data across many commodity servers, providing high availability with no single point of failure. It is a type of NoSQL database
+
+NoSQLDatabase
+
+is a database that provides a mechanism to store and retrieve data other than the tabular relations used in relational databases. These databases are schema-free, support easy replication, have simple API, eventually consistent, and can handle huge amounts of data.
+The primary objective of a NoSQL database is to have
+
+simplicity of design,
+horizontal scaling, and
+finer control over availability.
+NoSql databases use different data structures compared to relational databases. 
+
+besides cassandra, som other NoSQL databases that are quite popular:
+Apache HBase - HBase is an open source, non-relational, distributed database modeled after Google’s BigTable and is written in Java. It is developed as a part of Apache Hadoop project and runs on top of HDFS, providing BigTable-like capabilities for Hadoop.
+MongoDB - MongoDB is a cross-platform document-oriented database system that avoids using the traditional table-based relational database structure in favor of JSON-like documents with dynamic schemas making the integration of data in certain types of applications easier and faster.
+
+What is Apache Cassandra?
+
+Apache Cassandra is an open source, distributed and decentralized/distributed storage system (database), for managing very large amounts of structured data spread out across the world. It provides highly available service with no single point of failure.
+
+Listed below are some of the notable points of Apache Cassandra:
+It is scalable, fault-tolerant, and consistent.
+It is a column-oriented database.
+Its distribution design is based on Amazon’s Dynamo and its data model on Google’s Bigtable.
+Created at Facebook, it differs sharply from relational database management systems.
+Cassandra implements a Dynamo-style replication model with no single point of failure, but adds a more powerful “column family” data model.
+Cassandra is being used by some of the biggest companies such as Facebook, Twitter, Cisco, Rackspace, ebay, Twitter, Netflix, and more.
+
+Features of Cassandra
+
+Cassandra has become so popular because of its outstanding technical features. Given below are some of the features of Cassandra:
+Elastic scalability - Cassandra is highly scalable; it allows to add more hardware to accommodate more customers and more data as per requirement.
+Always on architecture - Cassandra has no single point of failure and it is continuously available for business-critical applications that cannot afford a failure.
+Fast linear-scale performance - Cassandra is linearly scalable, i.e., it increases your throughput as you increase the number of nodes in the cluster. Therefore it maintains a quick response time.
+Flexible data storage - Cassandra accommodates all possible data formats including: structured, semi-structured, and unstructured. It can dynamically accommodate changes to your data structures according to your need.
+Easy data distribution - Cassandra provides the flexibility to distribute data where you need by replicating data across multiple data centers.
+Transaction support - Cassandra supports properties like Atomicity, Consistency, Isolation, and Durability (ACID).
+Fast writes - Cassandra was designed to run on cheap commodity hardware. It performs blazingly fast writes and can store hundreds of terabytes of data, without sacrificing the read efficiency.
+
+History of Cassandra
+
+Cassandra was developed at Facebook for inbox search.
+It was open-sourced by Facebook in July 2008.
+Cassandra was accepted into Apache Incubator in March 2009.
+It was made an Apache top-level project since February 2010
+The design goal of Cassandra is to handle big data workloads across multiple nodes without any single point of failure. Cassandra has peer-to-peer distributed system across its nodes, and data is distributed among all the nodes in a cluster.
+All the nodes in a cluster play the same role. Each node is independent and at the same time interconnected to other nodes.
+Each node in a cluster can accept read and write requests, regardless of where the data is actually located in the cluster.
+
+When a node goes down, read/write requests can be served from other nodes in the network.
+Data Replication in Cassandra
+In Cassandra, one or more of the nodes in a cluster act as replicas for a given piece of data. If it is detected that some of the nodes responded with an out-of-date value, Cassandra will return the most recent value to the client. After returning the most recent value, Cassandra performs a read repair in the background to update the stale values.
+Cassandra uses the Gossip Protocol in the background to allow the nodes to communicate with each other and detect any faulty nodes in the cluster.
+
+Components of Cassandra
+
+The key components of Cassandra are as follows −
+Node − It is the place where data is stored.
+Data center − It is a collection of related nodes.
+Cluster − A cluster is a component that contains one or more data centers.
+Commit log − The commit log is a crash-recovery mechanism in Cassandra. Every write operation is written to the commit log.
+Mem-table − A mem-table is a memory-resident data structure. After commit log, the data will be written to the mem-table. Sometimes, for a single-column family, there will be multiple mem-tables.
+SSTable − It is a disk file to which the data is flushed from the mem-table when its contents reach a threshold value.
+Bloom filter − These are nothing but quick, nondeterministic, algorithms for testing whether an element is a member of a set. It is a special kind of cache. Bloom filters are accessed after every query.
+
+Cassandra Query Language
+
+Users can access Cassandra through its nodes using Cassandra Query Language (CQL). CQL treats the database (Keyspace) as a container of tables. Programmers use cqlsh: a prompt to work with CQL or separate application language drivers.
+Clients approach any of the nodes for their read-write operations. That node (coordinator) plays a proxy between the client and the nodes holding the data.
+
+Write Operations
+
+Every write activity of nodes is captured by the commit logs written in the nodes. Later the data will be captured and stored in the mem-table. Whenever the mem-table is full, data will be written into the SStable data file. All writes are automatically partitioned and replicated throughout the cluster. Cassandra periodically consolidates the SSTables, discarding unnecessary data.
+
+Read Operations
+
+During read operations, Cassandra gets values from the mem-table and checks the bloom filter to find the appropriate SSTable that holds the required data
+
+The data model of Cassandra is significantly different from what we normally see in an RDBMS. 
+The overview of how Cassandra stores its data.
+
+Cluster
+Cassandra database is distributed over several machines that operate together. The outermost container is known as the Cluster. For failure handling, every node contains a replica, and in case of a failure, the replica takes charge. Cassandra arranges the nodes in a cluster, in a ring format, and assigns data to them.
+
+Keyspace
+Keyspace is the outermost container for data in Cassandra. The basic attributes of a Keyspace in Cassandra are −
+
+Replication factor − It is the number of machines in the cluster that will receive copies of the same data.
+
+Replica placement strategy − It is nothing but the strategy to place replicas in the ring. We have strategies such as simple strategy (rack-aware strategy), old network topology strategy (rack-aware strategy), and network topology strategy (datacenter-shared strategy).
+
+Column families − Keyspace is a container for a list of one or more column families. A column family, in turn, is a container of a collection of rows. Each row contains ordered columns. Column families represent the structure of your data. Each keyspace has at least one and often many column families.
+
+The syntax of creating a Keyspace is as follows −
+
+CREATE KEYSPACE Keyspace name
+WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 3};
+The following illustration shows a schematic view of a Keyspace.
+
+Keyspace
+Column Family
+A column family is a container for an ordered collection of rows. Each row, in turn, is an ordered collection of columns. The following table lists the points that differentiate a column family from a table of relational databases.
+
+Relational Table	
+A schema in a relational model is fixed. Once we define certain columns for a table, while inserting data, in every row all the columns must be filled at least with a null value.
+Relational tables define only columns and the user fills in the table with values.
+
+Cassandra column Family
+In Cassandra, although the column families are defined, the columns are not. You can freely add any column to any column family at any time.
+In Cassandra, a table contains columns, or can be defined as a super column family.
+
+A Cassandra column family has the following attributes −
+keys_cached − It represents the number of locations to keep cached per SSTable.
+rows_cached − It represents the number of rows whose entire contents will be cached in memory.
+preload_row_cache − It specifies whether you want to pre-populate the row cache.
+Note − Unlike relational tables where a column family’s schema is not fixed, Cassandra does not force individual rows to have all the columns.
+
+Column
+A column is the basic data structure of Cassandra with three values, namely key or column name, value, and a time stamp.
+
+SuperColumn
+A super column is a special column, therefore, it is also a key-value pair. But a super column stores a map of sub-columns.
+
+Generally column families are stored on disk in individual files. Therefore, to optimise performance, it is important to keep columns that you are likely to query together in the same column family, and a super column can be helpful here.
+
+Data Models of Cassandra and RDBMS
+The following table lists down the points that differentiate the data model of Cassandra from that of an RDBMS.
+
+RDBMS
+RDBMS deals with structured data.
+It has a fixed schema.In RDBMS, a table is an array of arrays. (ROW x COLUMN)
+Database is the outermost container that contains data corresponding to an application.	
+Tables are the entities of a database.	
+Row is an individual record in RDBMS.	
+Column represents the attributes of a relation.	
+RDBMS supports the concepts of foreign keys, joins.	
+
+Cassandra
+Cassandra deals with unstructured data.
+Cassandra has a flexible schema.
+In Cassandra, a table is a list of “nested key-value pairs”. (ROW x COLUMN key x COLUMN value)
+Keyspace is the outermost container that contains data corresponding to an application.
+Row is a unit of replication in Cassandra.
+Tables or column families are the entity of a keyspace.
+Column is a unit of storage in Cassandra.
+Relationships are represented using collections.
+	
+For Installation of cassandra please prefer to the script 'cassandra_installation.sh'
+after installation it can be acessed using cqlsh command. 
+Using cqlsh, you can
+
+define a schema,
+insert data, and
+execute a query.
+Starting cqlsh
+Start cqlsh using the command cqlsh as shown below. It gives the Cassandra cqlsh prompt as output.
+
+[hadoop@linux bin]$ cqlsh
+Connected to Test Cluster at 127.0.0.1:9042.
+[cqlsh 5.0.1 | Cassandra 2.1.2 | CQL spec 3.2.0 | Native protocol v3]
+Use HELP for help.
+cqlsh>
+Cqlsh - As discussed above, this command is used to start the cqlsh prompt. In addition, it supports a few more options as well. The following table explains all the options of cqlsh and their usage.
+
+Options	Usage
+cqlsh --help	Shows help topics about the options of cqlsh commands.
+cqlsh --version	Provides the version of the cqlsh you are using.
+cqlsh --color	Directs the shell to use colored output.
+cqlsh --debug	Shows additional debugging information.
+cqlsh --execute
+
+cql_statement
+
+Directs the shell to accept and execute a CQL command.
+cqlsh --file= “file name”	If you use this option, Cassandra executes the command in the given file and exits.
+cqlsh --no-color	Directs Cassandra not to use colored output.
+cqlsh -u “user name”	Using this option, you can authenticate a user. The default user name is: cassandra.
+cqlsh-p “pass word”	Using this option, you can authenticate a user with a password. The default password is: cassandra.
+Cqlsh Commands
+Cqlsh has a few commands that allow users to interact with it. The commands are listed below.
+
+Documented Shell Commands
+Given below are the Cqlsh documented shell commands. These are the commands used to perform tasks such as displaying help topics, exit from cqlsh, describe,etc.
+HELP - Displays help topics for all cqlsh commands.
+CAPTURE - Captures the output of a command and adds it to a file.
+CONSISTENCY - Shows the current consistency level, or sets a new consistency level.
+COPY - Copies data to and from Cassandra.
+DESCRIBE - Describes the current cluster of Cassandra and its objects.
+EXPAND - Expands the output of a query vertically.
+EXIT - Using this command, you can terminate cqlsh.
+PAGING - Enables or disables query paging.
+SHOW - Displays the details of current cqlsh session such as Cassandra version, host, or data type assumptions.
+SOURCE - Executes a file that contains CQL statements.
+TRACING - Enables or disables request tracing.
+
+CQL Data Definition Commands
+
+CREATE KEYSPACE - Creates a KeySpace in Cassandra.
+USE - Connects to a created KeySpace.
+ALTER KEYSPACE - Changes the properties of a KeySpace.
+DROP KEYSPACE - Removes a KeySpace
+CREATE TABLE - Creates a table in a KeySpace.
+ALTER TABLE - Modifies the column properties of a table.
+DROP TABLE - Removes a table.
+TRUNCATE - Removes all the data from a table.
+CREATE INDEX - Defines a new index on a single column of a table.
+DROP INDEX - Deletes a named index.
+
+CQL Data Manipulation Commands
+
+INSERT - Adds columns for a row in a table.
+UPDATE - Updates a column of a row.
+DELETE - Deletes data from a table.
+BATCH - Executes multiple DML statements at once.
+
+CQL Clauses
+
+SELECT - This clause reads data from a table
+WHERE - The where clause is used along with select to read a specific data.
+ORDERBY - The orderby clause is used along with select to read a specific data in a specific order.
+

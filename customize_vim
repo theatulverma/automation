@@ -1,0 +1,39 @@
+set encoding=utf-8
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+Bundle 'Lokaltog/powerline'
+Bundle 'scrooloose/syntastic'
+Bundle 'koron/nyancat-vim'
+Plugin 'jpo/vim-railscasts-theme'
+Plugin 'fatih/vim-go'
+
+call vundle#end()
+" filetype plugin indent on "
+
+syntax on
+
+set rtp+=$HOME/.vim/bundle/powerline/powerline/bindings/vim
+
+set titlestring=%f%(\ [%M]%)
+set laststatus=2
+set statusline=%f
+set showcmd
+set showmode
+set t_Co=256
+set t_ut=
+set backspace=indent,eol,start
+
+set fillchars+=stl:\ ,stlnc:\
+set term=xterm-256color
+set termencoding=utf-8
+
+colorscheme molokai
+
+set nocindent
+set noautoindent
+set inde=

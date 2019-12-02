@@ -1,0 +1,16 @@
+FROM ubuntu:14.04
+RUN apt-get update
+RUN sudo apt-get install xz-utils
+
+ENV NPM_CONFIG_LOGLEVEL info
+ENV NODE_VERSION 6.10.3
+
+ADD "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" /opt
+RUN tar -xvf /opt/node-v$NODE_VERSION-linux-x64.tar.xz -C /usr/local --strip-components=1 \
+  && rm /opt/node-v$NODE_VERSION-linux-x64.tar.xz \
+  && ln -s /usr/local/bin/node /usr/bin/node \
+  && ln -s /usr/local/bin/npm /usr/bin/npm \
+  && npm i -g yarn \
+  && npm i -g gulp \
+  && npm i -g mocha \
+  && npm i -g nodemon
